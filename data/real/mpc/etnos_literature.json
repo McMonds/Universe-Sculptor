@@ -1,0 +1,122 @@
+{
+  "source": "Curated from Batygin & Brown (2016), Trujillo & Sheppard (2014), Sheppard et al. (2019)",
+  "date": "2024",
+  "note": "These are REAL orbital elements from peer-reviewed publications",
+  "etnos": [
+    {
+      "name": "Sedna",
+      "number": "90377",
+      "a": 506.2,
+      "e": 0.8549,
+      "i": 11.93,
+      "Node": 144.514,
+      "Peri": 311.123,
+      "M": 358.103,
+      "H": 1.6,
+      "source": "JPL Small-Body Database"
+    },
+    {
+      "name": "2012 VP113",
+      "designation": "Biden",
+      "a": 261.4,
+      "e": 0.6955,
+      "i": 24.05,
+      "Node": 90.8,
+      "Peri": 293.9,
+      "M": 125.9,
+      "H": 4.0,
+      "source": "Trujillo & Sheppard (2014)"
+    },
+    {
+      "name": "2015 TG387",
+      "designation": "Leleākūhonua",
+      "number": "541132",
+      "a": 1110.0,
+      "e": 0.9369,
+      "i": 11.9,
+      "Node": 153.99,
+      "Peri": 291.08,
+      "M": 0.82,
+      "H": 5.5,
+      "source": "Sheppard et al. (2019)"
+    },
+    {
+      "name": "2004 VN112",
+      "number": "474640",
+      "a": 328.0,
+      "e": 0.853,
+      "i": 25.57,
+      "Node": 66.0,
+      "Peri": 327.2,
+      "M": 14.5,
+      "H": 5.5,
+      "source": "JPL Small-Body Database"
+    },
+    {
+      "name": "2013 RF98",
+      "a": 337.5,
+      "e": 0.8993,
+      "i": 29.6,
+      "Node": 67.5,
+      "Peri": 311.7,
+      "M": 7.7,
+      "H": 5.5,
+      "source": "Becker et al. (2018)"
+    },
+    {
+      "name": "2007 TG422",
+      "a": 502.6,
+      "e": 0.9312,
+      "i": 18.6,
+      "Node": 113.5,
+      "Peri": 285.8,
+      "M": 8.3,
+      "H": 4.4,
+      "source": "JPL Small-Body Database"
+    },
+    {
+      "name": "2010 GB174",
+      "a": 356.5,
+      "e": 0.8655,
+      "i": 21.58,
+      "Node": 130.6,
+      "Peri": 347.8,
+      "M": 14.8,
+      "H": 5.8,
+      "source": "JPL Small-Body Database"
+    },
+    {
+      "name": "2013 FT28",
+      "a": 300.1,
+      "e": 0.8555,
+      "i":  17.4,
+      "Node": 152.9,
+      "Peri": 318.1,
+      "M": 16.2,
+      "H": 5.1,
+      "source": "JPL Small-Body Database"
+    },
+    {
+      "name": "2015 KG163",
+      "a": 670.1,
+      "e": 0.916,
+      "i": 14.0,
+      "Node": 146.1,
+      "Peri": 254.5,
+      "M": 4.3,
+      "H": 6.7,
+      "source": "Sheppard et al. (2016)"
+    },
+    {
+      "name": "2015 GT50",
+      "a": 366.7,
+      "e": 0.858,
+      "i": 8.5,
+      "Node": 44.1,
+      "Peri": 311.8,
+      "M": 18.1,
+      "H": 6.2,
+      "source": "Becker et al. (2018)"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Data (too large for git)
+data/cache/*.pkl
+data/snapshots/*.h5
+*.bsp
+*.fits
+
+# Logs
+logs/*.log
+*.log
+
+# Results
+results/
+output/
+*.mp4
+*.avi
+
+# Temporary
+*.tmp
+*.bak
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.coverage
+
+# Documentation build
+docs/_build/
+docs/.doctrees/
+
+# Deployment secrets
+deploy/*.key
+deploy/*.pem
+*.env

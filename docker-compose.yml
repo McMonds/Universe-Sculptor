@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  optimizer:
+    build: .
+    container_name: planet9_optimizer
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    command: python src/optimizer.py
+
+  web-viz:
+    build: .
+    container_name: planet9_viz
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+    command: python src/viz/server.py
+    depends_on:
+      - optimizer

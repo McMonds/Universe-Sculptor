@@ -1,0 +1,4 @@
+# WISE Exclusion Map Placeholder
+# Real data: https://irsa.ipac.caltech.edu/data/WISE/
+# Format: HEALPix FITS file
+# This is a placeholder. Download the actual map from IPAC.

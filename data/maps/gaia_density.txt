@@ -1,0 +1,4 @@
+# Gaia DR3 Density Map Placeholder
+# Real data: https://gea.esac.esa.int/archive/
+# Format: HEALPix FITS file
+# This is a placeholder. Download the actual map from ESA.

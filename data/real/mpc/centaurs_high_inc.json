@@ -1,0 +1,44 @@
+{
+    "source": "Chen et al. (2016), Gladman et al. (2009), Shankman et al. (2017)",
+    "note": "High-inclination objects that orbit perpendicular or retrograde - evidence for Planet 9's gravitational sculpting",
+    "centaurs": [
+        {
+            "name": "Niku",
+            "designation": "2011 KT19",
+            "a": 35.5,
+            "e": 0.27,
+            "i": 110.0,
+            "Node": 319.5,
+            "Peri": 56.5,
+            "M": 128.0,
+            "H": 6.5,
+            "retrograde": true,
+            "source": "Chen et al. (2016) - Discovery of a New Retrograde TNO"
+        },
+        {
+            "name": "Drac",
+            "designation": "2008 KV42",
+            "a": 41.2,
+            "e": 0.50,
+            "i": 103.5,
+            "Node": 200.4,
+            "Peri": 135.8,
+            "M": 88.2,
+            "H": 6.8,
+            "retrograde": true,
+            "source": "Gladman et al. (2009)"
+        },
+        {
+            "name": "2016 TP93",
+            "a": 43.8,
+            "e": 0.38,
+            "i": 87.3,
+            "Node": 165.2,
+            "Peri": 274.1,
+            "M": 45.6,
+            "H": 7.2,
+            "retrograde": false,
+            "source": "Shankman et al. (2017) - OSSOS"
+        }
+    ]
+}

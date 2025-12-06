@@ -1,0 +1,52 @@
+FROM python:3.10-slim-bookworm
+
+# CRITICAL: Architecture Flag for ARM64
+ENV ARCH=aarch64
+
+# ARM64 optimization flags for Ampere A1
+ENV CFLAGS="-O3 -march=armv8-a+crc+crypto"
+ENV CXXFLAGS="-O3 -march=armv8-a+crc+crypto"
+
+# Install build tools for REBOUND compilation
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    g++ \
+    gfortran \
+    git \
+    ffmpeg \
+    libhdf5-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Environment for HDF5 (Crucial for h5py compilation on ARM)
+ENV HDF5_DIR=/usr/lib/aarch64-linux-gnu/hdf5/serial
+
+WORKDIR /app
+
+# Copy requirements and install Python packages
+COPY requirements.txt .
+
+# Install packages individually to handle ARM compilation steps better
+RUN pip install --no-cache-dir numpy scipy
+RUN pip install --no-cache-dir h5py
+RUN pip install --no-cache-dir astroquery spiceypy healpy
+RUN pip install --no-cache-dir rebound reboundx
+RUN pip install --no-cache-dir matplotlib pandas textual flask
+
+# Copy application code
+COPY src/ ./src/
+COPY data/ ./data/
+COPY *.py ./
+
+# Create directories for output
+RUN mkdir -p data/snapshots data/cache logs
+
+# Volume mount for persistent data
+VOLUME /app/data
+
+# Environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+
+# Default: Run historical solver (configurable via env vars)
+CMD ["python", "run_historical_solver.py", "--scenario", "${SCENARIO:-rogue_capture}", "--generations", "${MAX_GENERATIONS:-50}"]

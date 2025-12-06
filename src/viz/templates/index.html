@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project 9th Planet - Observer</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; color: #fff; font-family: sans-serif; }
+        #info { position: absolute; top: 10px; left: 10px; z-index: 100; pointer-events: none; }
+        #loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; }
+    </style>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="info">
+        <h1>Project 9th Planet</h1>
+        <p>Time: <span id="time-display">0</span> years</p>
+    </div>
+    <div id="loading">Loading Simulation Data...</div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        let scene, camera, renderer, controls;
+        let planets = [];
+        let trails = [];
+        let simulationData = null;
+        let currentFrame = 0;
+        let isPlaying = false;
+
+        init();
+        loadData();
+        animate();
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x050505); // Deep space
+
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
+            camera.position.set(0, 200, 400);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+
+            // Sun
+            const sunGeo = new THREE.SphereGeometry(5, 32, 32);
+            const sunMat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+            const sun = new THREE.Mesh(sunGeo, sunMat);
+            scene.add(sun);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xffffff, 2, 1000);
+            scene.add(pointLight);
+
+            // Starfield
+            addStarfield();
+
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        function addStarfield() {
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            for (let i = 0; i < 10000; i++) {
+                vertices.push(THREE.MathUtils.randFloatSpread(2000)); // x
+                vertices.push(THREE.MathUtils.randFloatSpread(2000)); // y
+                vertices.push(THREE.MathUtils.randFloatSpread(2000)); // z
+            }
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            const material = new THREE.PointsMaterial({ color: 0x888888 });
+            const stars = new THREE.Points(geometry, material);
+            scene.add(stars);
+        }
+
+        async function loadData() {
+            try {
+                const response = await fetch('/api/data');
+                const data = await response.json();
+                
+                if (data.error) {
+                    document.getElementById('loading').innerText = data.error;
+                    return;
+                }
+
+                simulationData = data;
+                initPlanets(data.frames[0].length);
+                document.getElementById('loading').style.display = 'none';
+                isPlaying = true;
+            } catch (e) {
+                console.error(e);
+                document.getElementById('loading').innerText = "Error loading data.";
+            }
+        }
+
+        function initPlanets(count) {
+            const colors = [0xffaa00, 0xaaaaaa, 0x00aaff, 0x0000ff, 0xff0000]; // Just some colors
+            
+            for (let i = 0; i < count; i++) {
+                // Skip Sun (index 0 usually, but REBOUND includes it)
+                // Let's assume index 0 is Sun in data, but we already drew a sun.
+                // Actually, let's draw all particles.
+                
+                const size = (i === 0) ? 0.1 : (i > 4 ? 0.5 : 2); // Smaller for TNOs, bigger for planets
+                const color = colors[i % colors.length];
+                
+                const geo = new THREE.SphereGeometry(size, 16, 16);
+                const mat = new THREE.MeshLambertMaterial({ color: color });
+                const mesh = new THREE.Mesh(geo, mat);
+                scene.add(mesh);
+                planets.push(mesh);
+
+                // Trails
+                const trailGeo = new THREE.BufferGeometry();
+                const trailMat = new THREE.LineBasicMaterial({ color: color, opacity: 0.5, transparent: true });
+                // We'll update trail geometry dynamically or pre-calculate orbit lines?
+                // For simplicity, let's just move the dots for now.
+            }
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (isPlaying && simulationData) {
+                const frames = simulationData.frames;
+                if (currentFrame < frames.length) {
+                    const positions = frames[currentFrame];
+                    const time = simulationData.times[currentFrame];
+
+                    document.getElementById('time-display').innerText = (time / (2 * Math.PI)).toFixed(1); // Convert radians to years approx
+
+                    for (let i = 0; i < planets.length; i++) {
+                        if (positions[i]) {
+                            // REBOUND uses AU. Three.js scale: 1 unit = 1 AU
+                            planets[i].position.set(positions[i][0], positions[i][2], positions[i][1]); // Swap Y/Z for visual preference (Y is up)
+                        }
+                    }
+                    currentFrame++;
+                } else {
+                    currentFrame = 0; // Loop
+                }
+            }
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>
